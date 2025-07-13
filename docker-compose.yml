@@ -1,4 +1,28 @@
 services:
+  db:
+    image: postgres:15-alpine
+    restart: always
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: language_learner
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+  
+  backend:
+    build:
+      context: ./backend
+    depends_on:
+      - db
+    environment:
+      DATABASE_URL: postgresql+asyncpg://admin:password@db:5432/language_learner
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./backend:/app
+
   frontend:
     build:
       context: ./frontend
@@ -7,10 +31,5 @@ services:
     depends_on:
       - backend
 
-  backend:
-    build:
-      context: ./backend
-    ports:
-      - "8000:8000"
-    volumes:
-      - ./backend:/app
+volumes:
+  pgdata:
