@@ -1,6 +1,6 @@
 from sqlalchemy.orm import declarative_base, relationship
-from sqlalchemy import Column, Integer, String, Text, DateTime, ForeignKey
-from datetime import datetime
+from sqlalchemy import Column, Integer, String, Text, DateTime, ForeignKey, func
+from datetime import datetime, timezone
 
 Base = declarative_base()
 
@@ -10,7 +10,7 @@ class User(Base):
     email = Column(String, unique=True, nullable=False, index=True)
     hashed_password = Column(String, nullable=False)
     level = Column(String, default="beginner")
-    created_at = Column(DateTime, default=datetime.now)
+    created_at = Column(DateTime(timezone=True), server_default=func.now())
 
     srs_states = relationship("SRSState", back_populates="user")
     chat_sessions = relationship("ChatSession", back_populates="user")
@@ -21,7 +21,7 @@ class Lesson(Base):
     title = Column(String, nullable=False)
     description = Column(Text)
     level = Column(String, nullable=False)
-    created_at = Column(DateTime, default=datetime.utcnow)
+    created_at = Column(DateTime(timezone=True), server_default=func.now())
 
     flashcards = relationship("Flashcard", back_populates="lesson")
 
@@ -44,7 +44,7 @@ class SRSState(Base):
     ease_factor = Column(Integer, default=250)
     interval_days = Column(Integer, default=0)
     repetition = Column(Integer, default=0)
-    next_due = Column(DateTime, default=datetime.utcnow)
+    next_due = Column(DateTime(timezone=True), server_default=func.now())
 
     user = relationship("User", back_populates="srs_states")
     flashcard = relationship("Flashcard", back_populates="srs_states")
@@ -53,7 +53,7 @@ class ChatSession(Base):
     __tablename__ = "chat_sessions"
     id = Column(Integer, primary_key=True, index=True)
     user_id = Column(Integer, ForeignKey("users.id", ondelete="CASCADE"))
-    started_at = Column(DateTime, default=datetime.utcnow)
+    started_at = Column(DateTime(timezone=True), server_default=func.now())
     transcript = Column(Text)
     duration_sec = Column(Integer)
 
