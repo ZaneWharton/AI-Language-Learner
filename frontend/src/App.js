@@ -4,6 +4,7 @@ import { AuthProvider, AuthContext } from "./context/AuthContext";
 import Register from "./pages/Register";
 import Login from "./pages/Login";
 import Me from "./pages/Me";
+import PlacementTest from "./pages/PlacementTestPage";
 
 function PrivateRoute({ children }) {
   const { user } = React.useContext(AuthContext)
@@ -22,6 +23,14 @@ export default function App() {
             element={
               <PrivateRoute>
                 <Me />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/placement-test"
+            element={
+              <PrivateRoute>
+                <PlacementTest />
               </PrivateRoute>
             }
           />

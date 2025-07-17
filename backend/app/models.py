@@ -1,6 +1,5 @@
 from sqlalchemy.orm import declarative_base, relationship
-from sqlalchemy import Column, Integer, String, Text, DateTime, ForeignKey, func
-from datetime import datetime, timezone
+from sqlalchemy import Column, Integer, String, Text, DateTime, ForeignKey, JSON, Boolean, UniqueConstraint, func
 
 Base = declarative_base()
 
@@ -9,9 +8,11 @@ class User(Base):
     id = Column(Integer, primary_key=True, index=True)
     email = Column(String, unique=True, nullable=False, index=True)
     hashed_password = Column(String, nullable=False)
-    level = Column(String, default="beginner")
+    current_language = Column(String, default="Spanish", nullable=False)
     created_at = Column(DateTime(timezone=True), server_default=func.now())
+    is_admin = Column(Boolean, default=False, nullable=False)
 
+    language_progress = relationship("UserLanguageProgress", back_populates="user", cascade="all, delete-orphan")
     srs_states = relationship("SRSState", back_populates="user")
     chat_sessions = relationship("ChatSession", back_populates="user")
 
@@ -58,3 +59,22 @@ class ChatSession(Base):
     duration_sec = Column(Integer)
 
     user = relationship("User", back_populates="chat_sessions")
+
+class Question(Base):
+    __tablename__ = "questions"
+    id = Column(Integer, primary_key=True, index=True)
+    prompt = Column(String, nullable=False)
+    choices = Column(JSON, nullable=False)
+    correct_choice = Column(String, nullable=False)
+    language = Column(String, default="Spanish", nullable=False)
+
+class UserLanguageProgress(Base):
+    __tablename__ = "user_language_progress"
+    __table_args__ = (UniqueConstraint("user_id", "language", name="user_language"),)
+    id = Column(Integer, primary_key=True, index=True)
+    user_id = Column(Integer, ForeignKey("users.id", ondelete="CASCADE"))
+    language = Column(String, nullable=False)
+    level = Column(String, default="Beginner", nullable=False)
+    updated_at = Column(DateTime(timezone=True), server_default=func.now(), onupdate=func.now())
+
+    user = relationship("User", back_populates="language_progress")

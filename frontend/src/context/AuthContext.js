@@ -16,10 +16,12 @@ export function AuthProvider({ children }) {
         }
     }, []);
 
+    //Calls resistration endpoint
     const register = async (email, password) => {
         await API.post("/auth/register", { email, password });
     };
 
+    //Calls login endpoint, stores JWT token
     const login = async (email, password) => {
         const { data } = await API.post("/auth/login", { email, password });
         localStorage.setItem("access_token", data.access_token);
@@ -28,6 +30,7 @@ export function AuthProvider({ children }) {
         setUser({ id, email });
     };
 
+    //Clears JWT token
     const logout = () => {
         localStorage.removeItem("access_token");
         localStorage.removeItem("refresh_token");

@@ -4,6 +4,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import text
 from app.db import get_db
 import app.routes.auth as auth
+import app.routes.placement as placement
 
 
 app = FastAPI()
@@ -17,6 +18,7 @@ app.add_middleware(
 )
 
 app.include_router(auth.router)
+app.include_router(placement.router)
 
 @app.get("/health")
 async def health(db: AsyncSession = Depends(get_db)):

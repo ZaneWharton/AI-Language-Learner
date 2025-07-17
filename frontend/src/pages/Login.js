@@ -34,7 +34,7 @@ export default function Login() {
       
       <div className="md:w-1/3 md:h-screen flex flex-col justify-center items-center">
         <div className="h-5/6 w-full flex flex-col items-center justify-center bg-white rounded-bl-full rounded-tl-full">
-          <h2 className="text-5xl mb-8">Log In</h2>
+          <h2 className="text-5xl text-teal-800 mb-8">Log In</h2>
 
           <form onSubmit={onSubmit} className="space-y-4">
 

@@ -4,6 +4,10 @@ const API =  axios.create({
     baseURL: "http://localhost:8000"
 });
 
+const refreshAPI = axios.create({
+    baseURL: "http://localhost:8000"
+});
+
 const ACCESS = "access_token";
 const REFRESH =  "refresh_token";
 
@@ -23,7 +27,7 @@ API.interceptors.response.use(
             original._retry = true;
             const refresh = localStorage.getItem(REFRESH);
             if(refresh) {
-                const resp = await API.post(
+                const resp = await refreshAPI.post(
                     "/auth/refresh",
                     {},
                     {headers: {Authorization: `Bearer ${refresh}`}}

@@ -13,3 +13,4 @@ pytest-asyncio
 python-multipart
 sqlalchemy[asyncio]
 uvicorn
+openai

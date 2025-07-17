@@ -6,6 +6,7 @@ class Settings(BaseSettings):
     ACCESS_TOKEN_EXPIRE_MINUTES: int = 20
     REFRESH_TOKEN_EXPIRE_DAYS: int = 7
     DATABASE_URL: str
+    OPENAI_API_KEY: str
 
     class Config:
         env_file = ".env"
