@@ -1,6 +1,6 @@
 import React, { useState, useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
-import { useNavigate, Link } from "react-router-dom"
+import { useNavigate, Link } from "react-router-dom";
 
 export default function Login() {
   const { login } = useContext(AuthContext);
@@ -13,7 +13,7 @@ export default function Login() {
     e.preventDefault();
     try {
         await login(email, pw);
-        nav("/me");
+        nav("/dashboard");
     } catch (err) {
         setMsg(err.response?.data?.detail || "Login failed");
     }

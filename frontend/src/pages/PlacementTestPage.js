@@ -42,7 +42,7 @@ export default function PlacementTest() {
         
         //Tries to fetch test questions from the backend
         try {
-            const resp = await API.get("placement-test/test", {
+            const resp = await API.get("/placement-test/test", {
                 params: {language: language}
             });
             if (resp.data && resp.data.length > 0) {
@@ -138,7 +138,8 @@ export default function PlacementTest() {
     }
 
     //Selection screen
-    if (testStage === "selection") { return (
+    if (testStage === "selection") { 
+        return (
             <div className="min-h-screen flex items-center justify-center font-mono bg-gradient-to-r from-teal-900 to-blue-900">
                 <div className="bg-white p-10 rounded-full shadow-xl text-center w-2/5 space-y-6">
                     <h1 className="text-4xl text-teal-800">Start Your Placement Test</h1>
@@ -153,6 +154,7 @@ export default function PlacementTest() {
                             ))}
                     </select>
                     <button onClick={getQuestions} className="w-3/5 px-6 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700">Begin Test</button>
+                    <p className="hover:text-teal-800 cursor-pointer" onClick={() => nav("/dashboard")}>Back to dashboard</p>
                 </div>
             </div>
         );
@@ -193,6 +195,7 @@ export default function PlacementTest() {
                         className="w-4/5 text-left text-gray-300 mb-2 p-2 border rounded hover:text-white hover:bg-blue-800 transition-colors duration-200 ease-in-out">
                             I don't know
                     </button>
+                    <p className="text-gray-300 hover:text-white cursor-pointer" onClick={() => nav("/dashboard")}>Back to dashboard</p>
                 </div>
             </div>
         );
@@ -205,7 +208,7 @@ return (
             <h1 className="text-4xl text-teal-800">Test Complete!</h1>
             <p className="text-3xl text-gray-700">Estimated Competency:</p>
             <p className="text-5xl font-extrabold text-blue-700">{competency}</p>
-            <button onClick={() => nav('/me')} className="w-3/5 px-6 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700">Back to Dashboard</button>
+            <button onClick={() => nav('/dashboard')} className="w-3/5 px-6 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700">Back to Dashboard</button>
         </div>
     </div>
     );

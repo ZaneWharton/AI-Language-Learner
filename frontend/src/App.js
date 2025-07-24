@@ -5,6 +5,7 @@ import Register from "./pages/Register";
 import Login from "./pages/Login";
 import Me from "./pages/Me";
 import PlacementTest from "./pages/PlacementTestPage";
+import Dashboard from "./components/dashboard/Dashboard";
 
 function PrivateRoute({ children }) {
   const { user } = React.useContext(AuthContext)
@@ -31,6 +32,14 @@ export default function App() {
             element={
               <PrivateRoute>
                 <PlacementTest />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/dashboard"
+            element={
+              <PrivateRoute>
+                <Dashboard />
               </PrivateRoute>
             }
           />
